@@ -21,7 +21,14 @@ window.onload = async () => {
             description: 'App 2'
         },
     ]
-    apps.forEach(makeAppTile)
+    const categories = [
+        "Business",
+        "Entertainment",
+        "Graphics & Design",
+        "Medical"
+    ]
+    apps.forEach(makeAppTile);
+    categories.forEach(makeCategory);
 }
 
 async function makeAppTile(app) {
@@ -31,4 +38,13 @@ async function makeAppTile(app) {
     $line.innerText = app.name;
     $div.appendChild($line);
     $applist.appendChild($div);
+}
+
+async function makeCategory(category) {
+    const $categorylist = document.getElementById('category-list');
+    const $div = document.createElement('div');
+    const $line = document.createElement('p');
+    $line.innerText = category;
+    $div.appendChild($line);
+    $categorylist.appendChild($div);
 }
