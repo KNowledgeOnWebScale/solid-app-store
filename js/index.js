@@ -29,7 +29,10 @@ window.onload = async () => {
         "Business",
         "Entertainment",
         "Graphics & Design",
-        "Medical"
+        "Medical",
+        'Photo & Video',
+        "Developer Tools",
+        "Health & Fitness"
     ]
     apps.forEach(makeAppTile);
     categories.forEach(makeCategory);
