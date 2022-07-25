@@ -1,30 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
-import 'font-awesome/css/font-awesome.css'
+import 'font-awesome/css/font-awesome.css';
+
+import { queryClientIds } from './apps';
 
 window.onload = async () => {
-    const apps = [
-        {
-            name: 'KNoodle',
-            description: 'KNoodle is KNoWS\' Solid-based alternative to Doodle.',
-            link: 'https://github.com/KNowledgeOnWebScale/knoodle/'
-        },
-        {
-            name: 'SolidEditor',
-            description: 'A Microsoft Monaco based editor for text files on a Solid pod',
-            link: 'https://github.com/phochste/SolidEditor'
-        },
-        {
-            name: 'AcmeUpload',
-            description: 'A Solid app that can be used as a dropzone for a container.',
-            link: 'https://github.com/phochste/AcmeUpload'
-        },
-        {
-            name: 'AcmeContainer',
-            description: 'A base implementation of a Solid App with login and loading a Container',
-            link: 'https://github.com/phochste/AcmeContainer'
-        },
-    ]
+    const apps = await queryClientIds([
+        'https://solid-plato.netlify.app/id',
+        'https://solid-plato.netlify.app/id'
+    ])
+    apps.forEach(makeAppTile);
     const categories = [
         "Business",
         "Entertainment",
@@ -34,7 +19,6 @@ window.onload = async () => {
         "Developer Tools",
         "Health & Fitness"
     ]
-    apps.forEach(makeAppTile);
     categories.forEach(makeCategory);
 }
 
@@ -45,13 +29,13 @@ async function makeAppTile(app) {
     $div.setAttribute('style', 'width: 13rem');
 
     const $link = document.createElement('a');
-    $link.setAttribute('href', app.link);
+    $link.setAttribute('href', app.uri);
     $link.setAttribute('target', '_blank');
 
     const $img = document.createElement('img');
     $img.setAttribute('class', 'card-img-top p-5');
     $img.setAttribute('style', 'cursor: pointer');
-    $img.setAttribute('src', 'https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg');
+    $img.setAttribute('src', app.logo);
     $link.appendChild($img)
 
     $div.appendChild($link);
@@ -66,7 +50,7 @@ async function makeAppTile(app) {
 
     const $text = document.createElement('p');
     $text.setAttribute('class', 'card-text');
-    $text.innerText =app.description;
+    $text.innerText = app.description;
     $body.appendChild($text);
 
     $div.appendChild($body);
