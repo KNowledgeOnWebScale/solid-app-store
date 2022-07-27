@@ -5,11 +5,9 @@ import 'font-awesome/css/font-awesome.css';
 import { queryClientIds } from './apps';
 
 window.onload = async () => {
-    const apps = await queryClientIds([
-        'https://solid-plato.netlify.app/id',
+    await queryClientIds([
         'https://solid-plato.netlify.app/id'
-    ])
-    apps.forEach(makeAppTile);
+    ], makeAppTile)
     const categories = [
         "Business",
         "Entertainment",

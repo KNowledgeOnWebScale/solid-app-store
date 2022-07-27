@@ -1,5 +1,4 @@
-export async function queryClientIds(ids) {
-    const apps = []
+export async function queryClientIds(ids, callback) {
     const QueryEngine = require('@comunica/query-sparql').QueryEngine;
     const myEngine = new QueryEngine();
     const result = await myEngine.query(`
@@ -29,12 +28,9 @@ export async function queryClientIds(ids) {
             app.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor et sapien eu efficitur.'
         }
 
-        apps.push(app);
+        callback(app)
     });
     bindingsStream.on('error', (error) => {
         console.error(error);
-    });
-    bindingsStream.on('end', () => {
-        return apps;
     });
 }
