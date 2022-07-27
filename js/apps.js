@@ -1,3 +1,5 @@
+
+// function that will query the necessary data from a Solid app using their ClientID's and the Comunica SPARQL query
 export async function queryClientIds(ids, callback) {
     const QueryEngine = require('@comunica/query-sparql').QueryEngine;
     const myEngine = new QueryEngine();
@@ -15,21 +17,24 @@ export async function queryClientIds(ids, callback) {
         const app = {};
         app.name = binding.get('name').value;
         app.uri = binding.get('uri').value;
+
+        // As both the app's logo and description are optional, check if they are present or use a placeholder
         if (binding.has('logo')) {
             app.logo = binding.get('logo').value;
         } else {
             app.logo = 'https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg';
         }
-
         if (binding.has('description')) {
             app.description = binding.get('description').value;
         } else {
-            //Placeholder for description
-            app.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor et sapien eu efficitur.'
+            // TODO: no description when abscent
+            app.description = 'A Solid App'
         }
 
         callback(app)
     });
+
+    // TODO: make sure this ACTUALLY handles the error and the query doesn't die midway, as this causes no app tiles to be made
     bindingsStream.on('error', (error) => {
         console.error(error);
     });

@@ -6,7 +6,8 @@ import { queryClientIds } from './apps';
 
 window.onload = async () => {
     await queryClientIds([
-        'https://solid-plato.netlify.app/id'
+        'https://solid-plato.netlify.app/id',
+        'https://solid-md-viewer.netlify.app/id'
     ], makeAppTile)
     const categories = [
         "Business",
