@@ -2,29 +2,30 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'font-awesome/css/font-awesome.css'
 
+let apps = [];
+
 window.onload = async () => {
-    const apps = [
-        {
-            name: 'KNoodle',
-            description: 'KNoodle is KNoWS\' Solid-based alternative to Doodle.',
-            link: 'https://github.com/KNowledgeOnWebScale/knoodle/'
-        },
-        {
-            name: 'SolidEditor',
-            description: 'A Microsoft Monaco based editor for text files on a Solid pod',
-            link: 'https://github.com/phochste/SolidEditor'
-        },
-        {
-            name: 'AcmeUpload',
-            description: 'A Solid app that can be used as a dropzone for a container.',
-            link: 'https://github.com/phochste/AcmeUpload'
-        },
-        {
-            name: 'AcmeContainer',
-            description: 'A base implementation of a Solid App with login and loading a Container',
-            link: 'https://github.com/phochste/AcmeContainer'
-        },
-    ]
+    await handleNewApp({
+        name: 'KNoodle',
+        description: 'KNoodle is KNoWS\' Solid-based alternative to Doodle.',
+        link: 'https://github.com/KNowledgeOnWebScale/knoodle/'
+    })
+    await handleNewApp({
+        name: 'SolidEditor',
+        description: 'A Microsoft Monaco based editor for text files on a Solid pod',
+        link: 'https://github.com/phochste/SolidEditor'
+    })
+    await handleNewApp({
+        name: 'AcmeUpload',
+        description: 'A Solid app that can be used as a dropzone for a container.',
+        link: 'https://github.com/phochste/AcmeUpload'
+        })
+    await handleNewApp({
+        name: 'AcmeContainer',
+        description: 'A base implementation of a Solid App with login and loading a Container',
+        link: 'https://github.com/phochste/AcmeContainer'
+        })
+
     const categories = [
         "Business",
         "Entertainment",
@@ -34,8 +35,15 @@ window.onload = async () => {
         "Developer Tools",
         "Health & Fitness"
     ]
-    apps.forEach(makeAppTile);
     categories.forEach(makeCategory);
+
+    const $searchbar = document.getElementById('search');
+    $searchbar.addEventListener('change', handleSearch)
+}
+
+async function handleNewApp(app) {
+    apps.push(app);
+    await makeAppTile(app);
 }
 
 async function makeAppTile(app) {
@@ -66,7 +74,7 @@ async function makeAppTile(app) {
 
     const $text = document.createElement('p');
     $text.setAttribute('class', 'card-text');
-    $text.innerText =app.description;
+    $text.innerText = app.description;
     $body.appendChild($text);
 
     $div.appendChild($body);
@@ -80,4 +88,15 @@ async function makeCategory(category) {
     $line.innerText = category;
     $div.appendChild($line);
     $categorylist.appendChild($div);
+}
+
+async function handleSearch() {
+    const $applist = document.getElementById('app-list');
+    const keyword = document.getElementById('search').value.toLowerCase();
+    $applist.innerHTML = '';
+    for (const app of apps) {
+        if (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) {
+            await makeAppTile(app);
+        }
+    }
 }
