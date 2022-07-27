@@ -6,7 +6,8 @@ export async function queryClientIds(ids) {
       SELECT DISTINCT * WHERE {
         ?s <http://www.w3.org/ns/solid/oidc#client_name> ?name .
         ?s <http://www.w3.org/ns/solid/oidc#client_uri> ?uri . 
-        OPTIONAL { ?s <http://www.w3.org/ns/solid/oidc#logo_uri> ?logo }
+        OPTIONAL { ?s <http://www.w3.org/ns/solid/oidc#logo_uri> ?logo } .
+        OPTIONAL { ?s <http://schema.org/description> ?description }
       }`, {
         sources: ids,
     });
@@ -21,8 +22,12 @@ export async function queryClientIds(ids) {
             app.logo = 'https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg';
         }
 
-        //Placeholder for description
-        app.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor et sapien eu efficitur.'
+        if (binding.has('description')) {
+            app.description = binding.get('description').value;
+        } else {
+            //Placeholder for description
+            app.description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor et sapien eu efficitur.'
+        }
 
         apps.push(app);
     });
