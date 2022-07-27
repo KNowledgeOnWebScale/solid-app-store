@@ -76,8 +76,14 @@ async function makeAppTile(app) {
 async function makeCategory(category) {
     const $categorylist = document.getElementById('category-list');
     const $div = document.createElement('div');
+    $div.addEventListener('click', filterCategory(category));
+    $div.setAttribute('style', 'cursor: pointer;')
     const $line = document.createElement('p');
     $line.innerText = category;
     $div.appendChild($line);
     $categorylist.appendChild($div);
+}
+
+async function filterCategory(category) {
+    console.log("filtered on category: ", category);
 }
