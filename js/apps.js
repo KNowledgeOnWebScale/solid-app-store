@@ -3,7 +3,7 @@ export async function queryClientIds(ids) {
     const QueryEngine = require('@comunica/query-sparql').QueryEngine;
     const myEngine = new QueryEngine();
     const result = await myEngine.query(`
-      SELECT * WHERE {
+      SELECT DISTINCT * WHERE {
         ?s <http://www.w3.org/ns/solid/oidc#client_name> ?name .
         ?s <http://www.w3.org/ns/solid/oidc#client_uri> ?uri . 
         OPTIONAL { ?s <http://www.w3.org/ns/solid/oidc#logo_uri> ?logo }
