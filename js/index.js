@@ -24,16 +24,14 @@ window.onload = async () => {
 async function makeAppTile(app) {
     const $applist = document.getElementById('app-list');
     const $div = document.createElement('div');
-    $div.setAttribute('class', 'card mx-3 my-2');
-    $div.setAttribute('style', 'width: 13rem');
+    $div.setAttribute('class', 'card mx-3 my-2 app-tile-div');
 
     const $link = document.createElement('a');
     $link.setAttribute('href', app.uri);
     $link.setAttribute('target', '_blank');
 
     const $img = document.createElement('img');
-    $img.setAttribute('class', 'card-img-top p-5');
-    $img.setAttribute('style', 'cursor: pointer');
+    $img.setAttribute('class', 'card-img-top p-5 app-tile-img');
     $img.setAttribute('src', app.logo);
     $link.appendChild($img)
 
