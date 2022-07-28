@@ -1,31 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
-import 'font-awesome/css/font-awesome.css'
+import 'font-awesome/css/font-awesome.css';
+
+import { queryClientIds } from './apps';
 
 let apps = [];
 
 window.onload = async () => {
-    await handleNewApp({
-        name: 'KNoodle',
-        description: 'KNoodle is KNoWS\' Solid-based alternative to Doodle.',
-        link: 'https://github.com/KNowledgeOnWebScale/knoodle/'
-    })
-    await handleNewApp({
-        name: 'SolidEditor',
-        description: 'A Microsoft Monaco based editor for text files on a Solid pod',
-        link: 'https://github.com/phochste/SolidEditor'
-    })
-    await handleNewApp({
-        name: 'AcmeUpload',
-        description: 'A Solid app that can be used as a dropzone for a container.',
-        link: 'https://github.com/phochste/AcmeUpload'
-        })
-    await handleNewApp({
-        name: 'AcmeContainer',
-        description: 'A base implementation of a Solid App with login and loading a Container',
-        link: 'https://github.com/phochste/AcmeContainer'
-        })
-
+    await queryClientIds([
+        'https://solid-plato.netlify.app/id',
+        'https://solid-md-viewer.netlify.app/id'
+    ], makeAppTile)
     const categories = [
         "Business",
         "Entertainment",
@@ -49,17 +34,15 @@ async function handleNewApp(app) {
 async function makeAppTile(app) {
     const $applist = document.getElementById('app-list');
     const $div = document.createElement('div');
-    $div.setAttribute('class', 'card mx-3 my-2');
-    $div.setAttribute('style', 'width: 13rem');
+    $div.setAttribute('class', 'card mx-3 my-2 app-tile-div');
 
     const $link = document.createElement('a');
-    $link.setAttribute('href', app.link);
+    $link.setAttribute('href', app.uri);
     $link.setAttribute('target', '_blank');
 
     const $img = document.createElement('img');
-    $img.setAttribute('class', 'card-img-top p-5');
-    $img.setAttribute('style', 'cursor: pointer');
-    $img.setAttribute('src', 'https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg');
+    $img.setAttribute('class', 'card-img-top p-5 app-tile-img');
+    $img.setAttribute('src', app.logo);
     $link.appendChild($img)
 
     $div.appendChild($link);
