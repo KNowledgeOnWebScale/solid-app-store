@@ -1,5 +1,9 @@
-
-// function that will query the necessary data from a Solid app using their ClientID's and the Comunica SPARQL query
+/**
+ * Query the necessary data from the Solid app(s)
+ * @param {array} ids - Array of the app('s) ClientID(s)
+ * @param {function} callback - Function to handle the retrieved data from an app
+ * @returns {Promise<void>}
+ */
 export async function queryClientIds(ids, callback) {
     const QueryEngine = require('@comunica/query-sparql').QueryEngine;
     const myEngine = new QueryEngine();
