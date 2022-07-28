@@ -4,6 +4,8 @@ import 'font-awesome/css/font-awesome.css';
 
 import { queryClientIds } from './apps';
 
+let apps = [];
+
 window.onload = async () => {
     await queryClientIds([
         'https://solid-plato.netlify.app/id',
@@ -19,6 +21,14 @@ window.onload = async () => {
         "Health & Fitness"
     ]
     categories.forEach(makeCategory);
+
+    const $searchbar = document.getElementById('search');
+    $searchbar.addEventListener('change', handleSearch)
+}
+
+async function handleNewApp(app) {
+    apps.push(app);
+    await makeAppTile(app);
 }
 
 async function makeAppTile(app) {
@@ -61,4 +71,15 @@ async function makeCategory(category) {
     $line.innerText = category;
     $div.appendChild($line);
     $categorylist.appendChild($div);
+}
+
+async function handleSearch() {
+    const $applist = document.getElementById('app-list');
+    const keyword = document.getElementById('search').value.toLowerCase();
+    $applist.innerHTML = '';
+    for (const app of apps) {
+        if (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) {
+            await makeAppTile(app);
+        }
+    }
 }
