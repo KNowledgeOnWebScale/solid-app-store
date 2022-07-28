@@ -1,0 +1,11 @@
+#app-list {
+    flex-wrap: wrap;
+}
+
+.app-tile-div {
+    width: 13rem;
+}
+
+.app-tile-img {
+    cursor: pointer;
+}
