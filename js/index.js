@@ -10,7 +10,7 @@ window.onload = async () => {
     await queryClientIds([
         'https://solid-plato.netlify.app/id',
         'https://solid-md-viewer.netlify.app/id'
-    ], makeAppTile)
+    ], handleNewApp)
     const categories = [
         "Business",
         "Entertainment",
