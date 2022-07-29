@@ -5,6 +5,9 @@ import 'font-awesome/css/font-awesome.css';
 import { queryClientIds } from './apps';
 
 let apps = [];
+let filteredApps = [];
+let keywordFilter = '';
+let categoryFilter = '';
 
 window.onload = async () => {
     await queryClientIds([
@@ -12,6 +15,7 @@ window.onload = async () => {
         'https://solid-md-viewer.netlify.app/id'
     ], makeAppTile)
     const categories = [
+        "All",
         "Business",
         "Entertainment",
         "Graphics & Design",
@@ -23,11 +27,12 @@ window.onload = async () => {
     categories.forEach(makeCategory);
 
     const $searchbar = document.getElementById('search');
-    $searchbar.addEventListener('change', handleSearch)
+    $searchbar.addEventListener('change', filterSearch)
 }
 
 async function handleNewApp(app) {
     apps.push(app);
+    // categories.push(app.category);
     await makeAppTile(app);
 }
 
@@ -78,11 +83,11 @@ async function makeCategory(category) {
     $categorylist.appendChild($div);
 }
 
-async function handleSearch() {
+async function filterSearch() {
     const $applist = document.getElementById('app-list');
     const keyword = document.getElementById('search').value.toLowerCase();
     $applist.innerHTML = '';
-    for (const app of apps) {
+    for (const app of filteredApps) {
         if (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) {
             await makeAppTile(app);
         }
@@ -90,5 +95,18 @@ async function handleSearch() {
 }
 
 async function filterCategory(category) {
-    console.log("filtered on category: ", category);
+    document.getElementById('search').value = '';
+    document.getElementById('app-list').innerHTML = '';
+    if (category === "All") {
+        filteredApps = apps;
+        filteredApps.forEach(makeAppTile);
+    } else {
+        filteredApps = [];
+        for (const app of apps) {
+            if (app.category === category) {
+                filteredApps.push(app);
+                await makeAppTile(app);
+            }
+        }
+    }
 }
