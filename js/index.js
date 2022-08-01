@@ -5,18 +5,25 @@ import 'font-awesome/css/font-awesome.css';
 import {queryApps, queryCategory} from './apps';
 
 let apps = [];
-let filteredApps = [];
 let categories = [];
-let keywordFilter = '';
-let categoryFilter = '';
+let categoryIDFilter = '';
 
 window.onload = async () => {
+    handleNewCategory({
+        name: 'All',
+        id: 'all',
+        description: 'All apps'
+    });
+    categoryIDFilter = 'all';
+
     await queryApps([
         'https://solid-plato.netlify.app/id',
         'https://solid-md-viewer.netlify.app/id'
     ], handleNewApp);
     const $searchbar = document.getElementById('search');
-    $searchbar.addEventListener('change', filterSearch)
+    $searchbar.addEventListener('change', () => {
+        filter(categoryIDFilter)
+    })
 }
 
 async function handleNewApp(app) {
@@ -78,43 +85,27 @@ async function makeAppTile(app) {
 
 async function makeCategoryView(category) {
     const $categorylist = document.getElementById('category-list');
-    // TODO: make button
+    const $div = document.createElement('div');
     const $button = document.createElement('button');
     $button.addEventListener('click', () => {
-        filterCategory(category)
+        filter(category.id);
     });
     $button.setAttribute('class', 'category-button');
     $button.setAttribute('title', category.description);
     const $line = document.createElement('p');
     $line.innerText = category.name;
     $button.appendChild($line);
-    $categorylist.appendChild($button);
+    $div.appendChild($button);
+    $categorylist.appendChild($div);
 }
 
-async function filterSearch() {
-    const $applist = document.getElementById('app-list');
-    const keyword = document.getElementById('search').value.toLowerCase();
-    $applist.innerHTML = '';
-    for (const app of filteredApps) {
-        if (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) {
-            await makeAppTile(app);
-        }
-    }
-}
-
-async function filterCategory(category) {
-    document.getElementById('search').value = '';
+async function filter(categoryID) {
     document.getElementById('app-list').innerHTML = '';
-    if (category === "All") {
-        filteredApps = apps;
-        filteredApps.forEach(makeAppTile);
-    } else {
-        filteredApps = [];
-        for (const app of apps) {
-            if (app.category === category) {
-                filteredApps.push(app);
-                await makeAppTile(app);
-            }
-        }
-    }
+    categoryIDFilter = categoryID;
+    const keyword = document.getElementById('search').value.toLowerCase();
+    const filteredApps = apps.filter(
+        app => (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) &&
+            (categoryID === "all" || app.categories.includes(categoryID))
+    );
+    filteredApps.forEach(makeAppTile);
 }

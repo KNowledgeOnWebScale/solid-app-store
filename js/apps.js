@@ -70,6 +70,7 @@ export async function queryCategory(categoryID, callback) {
         const category = {};
         category.name = binding.get('name').value;
         category.description = binding.get('description').value;
+        category.id = categoryID;
         callback(category);
     });
 }
