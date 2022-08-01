@@ -39,11 +39,7 @@ export async function queryApps(ids, callback) {
             app.description = 'A Solid App'
         }
         if (binding.has('categories')) {
-            app.categories = binding.get('categories').value
-                .split(' ')
-                .filter(category =>
-                    category !== 'https://data.knows.idlab.ugent.be/person/office/application-categories#reference'
-                );
+            app.categories = binding.get('categories').value.split(' ');
         }
 
         callback(app)
