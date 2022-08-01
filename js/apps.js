@@ -53,7 +53,7 @@ export async function queryApps(ids, callback) {
 
 /**
  * Query the necessary data from a category
- * @param {Array} categoryID - Array containing a single category id
+ * @param {String} categoryID - Array containing a single category id
  * @param {Function} callback - Function to handle the retrieved data from a category
  * @returns {Promise<void>}
  */
