@@ -83,7 +83,8 @@ async function makeCategoryView(category) {
     $button.addEventListener('click', () => {
         filterCategory(category)
     });
-    $button.setAttribute('class', 'category-button')
+    $button.setAttribute('class', 'category-button');
+    $button.setAttribute('title', category.description);
     const $line = document.createElement('p');
     $line.innerText = category.name;
     $button.appendChild($line);
