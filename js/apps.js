@@ -17,7 +17,7 @@ export async function queryApps(ids, callback) {
         OPTIONAL { ?s <http://schema.org/description> ?description } .
         OPTIONAL { ?s <http://schema.org/category> ?category } .
       } 
-      GROUP BY ?name ?uri ?logo ?description`, {
+      GROUP BY ?s ?name ?uri ?logo ?description`, {
         sources: ids,
     });
     const bindingsStream = await result.execute()
