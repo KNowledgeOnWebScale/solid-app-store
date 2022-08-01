@@ -26,6 +26,11 @@ window.onload = async () => {
     })
 }
 
+/**
+ * Callback function to handle a newly queried app
+ * @param {Object} app - app object returned by query
+ * @returns {Promise<void>}
+ */
 async function handleNewApp(app) {
     apps.push(app);
     await makeAppTile(app);
@@ -36,11 +41,21 @@ async function handleNewApp(app) {
     }
 }
 
+/**
+ * Callback function to handle a newly queried category
+ * @param {Object} category - category object returned by query
+ * @returns {Promise<void>}
+ */
 async function handleNewCategory(category) {
     categories.push(category);
     await makeCategoryView(category);
 }
 
+/**
+ * Return whether the category has been added and processed before
+ * @param {String} categoryID - Id of category that needs to be checked
+ * @returns {boolean} - Indicates whether the category has been added and processed before
+ */
 function categoryExists(categoryID) {
     for (const category of categories) {
         if (category.id === categoryID) {
@@ -50,6 +65,11 @@ function categoryExists(categoryID) {
     return false;
 }
 
+/**
+ * Create the HTML elements for an app tile
+ * @param {Object} category - app object
+ * @returns {Promise<void>}
+ */
 async function makeAppTile(app) {
     const $applist = document.getElementById('app-list');
     const $div = document.createElement('div');
@@ -83,6 +103,11 @@ async function makeAppTile(app) {
     $applist.appendChild($div);
 }
 
+/**
+ * Create the HTML elements for a category list item
+ * @param {Object} category - category object
+ * @returns {Promise<void>}
+ */
 async function makeCategoryView(category) {
     const $categorylist = document.getElementById('category-list');
     const $div = document.createElement('div');
@@ -99,6 +124,11 @@ async function makeCategoryView(category) {
     $categorylist.appendChild($div);
 }
 
+/**
+ * Filter apps/app tiles by category and/or keyword
+ * @param {String} categoryID - ID of category to be filtered
+ * @returns {Promise<void>}
+ */
 async function filter(categoryID) {
     document.getElementById('app-list').innerHTML = '';
     categoryIDFilter = categoryID;

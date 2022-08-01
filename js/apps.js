@@ -2,8 +2,8 @@ import {QueryEngine} from "@comunica/query-sparql";
 
 /**
  * Query the necessary data from the Solid app(s)
- * @param {array} ids - Array of the app('s) ClientID(s)
- * @param {function} callback - Function to handle the retrieved data from an app
+ * @param {Array} ids - Array of the app('s) ClientID(s)
+ * @param {Function} callback - Function to handle the retrieved data from an app
  * @returns {Promise<void>}
  */
 export async function queryApps(ids, callback) {
@@ -51,6 +51,12 @@ export async function queryApps(ids, callback) {
     });
 }
 
+/**
+ * Query the necessary data from a category
+ * @param {Array} categoryID - Array containing a single category id
+ * @param {Function} callback - Function to handle the retrieved data from a category
+ * @returns {Promise<void>}
+ */
 export async function queryCategory(categoryID, callback) {
     const QueryEngine = require('@comunica/query-sparql').QueryEngine;
     const myEngine = new QueryEngine();
