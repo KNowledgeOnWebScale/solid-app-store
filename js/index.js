@@ -4,9 +4,16 @@ import 'font-awesome/css/font-awesome.css';
 
 import {queryApps, queryCategory} from './apps';
 
+// Store the queried apps, so they can be filtered and built again later on
 let apps = [];
+
+// Store the queried categories so duplicates can be avoided
 let categories = [];
+
+// Store the id of the category that is currently being filtered on
 let categoryIDFilter = '';
+
+// Store the keyword that is currently being filtered on
 let keywordFilter = '';
 
 window.onload = async () => {
