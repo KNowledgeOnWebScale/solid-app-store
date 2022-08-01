@@ -2,38 +2,45 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'font-awesome/css/font-awesome.css';
 
-import { queryClientIds } from './apps';
+import {queryApps, queryCategory} from './apps';
 
 let apps = [];
 let filteredApps = [];
+let categories = [];
 let keywordFilter = '';
 let categoryFilter = '';
 
 window.onload = async () => {
-    await queryClientIds([
+    await queryApps([
         'https://solid-plato.netlify.app/id',
         'https://solid-md-viewer.netlify.app/id'
-    ], handleNewApp)
-    const categories = [
-        "All",
-        "Business",
-        "Entertainment",
-        "Graphics & Design",
-        "Medical",
-        'Photo & Video',
-        "Developer Tools",
-        "Health & Fitness"
-    ]
-    categories.forEach(makeCategory);
-
+    ], handleNewApp);
     const $searchbar = document.getElementById('search');
     $searchbar.addEventListener('change', filterSearch)
 }
 
 async function handleNewApp(app) {
     apps.push(app);
-    // categories.push(app.category);
     await makeAppTile(app);
+    for (const categoryID of app.categories) {
+        if (!categoryExists(categoryID)) {
+            await queryCategory(categoryID, handleNewCategory);
+        }
+    }
+}
+
+async function handleNewCategory(category) {
+    categories.push(category);
+    await makeCategory(category.name);
+}
+
+function categoryExists(categoryID) {
+    for (const category of categories) {
+        if (Object.values(category).includes(categoryID)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 async function makeAppTile(app) {
