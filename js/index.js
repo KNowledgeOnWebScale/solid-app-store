@@ -43,7 +43,7 @@ async function handleNewCategory(category) {
 
 function categoryExists(categoryID) {
     for (const category of categories) {
-        if (Object.values(category).includes(categoryID)) {
+        if (category.id === categoryID) {
             return true;
         }
     }
