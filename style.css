@@ -9,3 +9,10 @@
 .app-tile-img {
     cursor: pointer;
 }
+
+.category-button {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}

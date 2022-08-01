@@ -31,7 +31,7 @@ async function handleNewApp(app) {
 
 async function handleNewCategory(category) {
     categories.push(category);
-    await makeCategory(category.name);
+    await makeCategoryView(category);
 }
 
 function categoryExists(categoryID) {
@@ -76,18 +76,18 @@ async function makeAppTile(app) {
     $applist.appendChild($div);
 }
 
-async function makeCategory(category) {
+async function makeCategoryView(category) {
     const $categorylist = document.getElementById('category-list');
     // TODO: make button
-    const $div = document.createElement('div');
-    $div.addEventListener('click', () => {
+    const $button = document.createElement('button');
+    $button.addEventListener('click', () => {
         filterCategory(category)
     });
-    $div.setAttribute('style', 'cursor: pointer;')
+    $button.setAttribute('class', 'category-button')
     const $line = document.createElement('p');
-    $line.innerText = category;
-    $div.appendChild($line);
-    $categorylist.appendChild($div);
+    $line.innerText = category.name;
+    $button.appendChild($line);
+    $categorylist.appendChild($button);
 }
 
 async function filterSearch() {
