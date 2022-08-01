@@ -7,6 +7,7 @@ import {queryApps, queryCategory} from './apps';
 let apps = [];
 let categories = [];
 let categoryIDFilter = '';
+let keywordFilter = '';
 
 window.onload = async () => {
     handleNewCategory({
@@ -22,7 +23,7 @@ window.onload = async () => {
     ], handleNewApp);
     const $searchbar = document.getElementById('search');
     $searchbar.addEventListener('change', () => {
-        filter(categoryIDFilter)
+        filter(categoryIDFilter, $searchbar.value.toLowerCase())
     })
 }
 
@@ -113,7 +114,7 @@ async function makeCategoryView(category) {
     const $div = document.createElement('div');
     const $button = document.createElement('button');
     $button.addEventListener('click', () => {
-        filter(category.id);
+        filter(category.id, keywordFilter);
     });
     $button.setAttribute('class', 'category-button');
     $button.setAttribute('title', category.description);
@@ -127,12 +128,13 @@ async function makeCategoryView(category) {
 /**
  * Filter apps/app tiles by category and/or keyword
  * @param {String} categoryID - ID of category to be filtered
+ * @param {String} keyword - keyword to be filtered
  * @returns {Promise<void>}
  */
-async function filter(categoryID) {
+async function filter(categoryID, keyword) {
     document.getElementById('app-list').innerHTML = '';
     categoryIDFilter = categoryID;
-    const keyword = document.getElementById('search').value.toLowerCase();
+    keywordFilter = keyword;
     const filteredApps = apps.filter(
         app => (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) &&
             (categoryID === "all" || app.categories.includes(categoryID))
