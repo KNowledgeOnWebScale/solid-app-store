@@ -7,7 +7,7 @@ import {queryApps, queryCategory} from './apps';
 // Store the queried apps, so they can be filtered and built again later on
 let apps = [];
 
-// Store the queried categorie ID's so duplicates can be avoided
+// Store the queried category IDs so duplicates can be avoided
 let categories = [];
 
 // Store the id of the category that is currently being filtered on
