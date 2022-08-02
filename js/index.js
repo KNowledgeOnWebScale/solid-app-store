@@ -7,7 +7,7 @@ import {queryApps, queryCategory} from './apps';
 // Store the queried apps, so they can be filtered and built again later on
 let apps = [];
 
-// Store the queried categories so duplicates can be avoided
+// Store the queried categorie ID's so duplicates can be avoided
 let categories = [];
 
 // Store the id of the category that is currently being filtered on
@@ -17,7 +17,7 @@ let categoryIDFilter = '';
 let keywordFilter = '';
 
 window.onload = async () => {
-    handleNewCategory({
+    await makeCategoryView({
         name: 'All',
         id: 'all',
         description: 'All apps'
@@ -44,34 +44,11 @@ async function handleNewApp(app) {
     apps.push(app);
     await makeAppTile(app);
     for (const categoryID of app.categories) {
-        if (!categoryExists(categoryID)) {
-            await queryCategory(categoryID, handleNewCategory);
+        if (!categories.includes(categoryID)) {
+            categories.push(categoryID);
+            await queryCategory(categoryID, makeCategoryView);
         }
     }
-}
-
-/**
- * Callback function to handle a newly queried category
- * @param {Object} category - category object returned by query
- * @returns {Promise<void>}
- */
-async function handleNewCategory(category) {
-    categories.push(category);
-    await makeCategoryView(category);
-}
-
-/**
- * Return whether the category has been added and processed before
- * @param {String} categoryID - Id of category that needs to be checked
- * @returns {boolean} - Indicates whether the category has been added and processed before
- */
-function categoryExists(categoryID) {
-    for (const category of categories) {
-        if (category.id === categoryID) {
-            return true;
-        }
-    }
-    return false;
 }
 
 /**
@@ -79,7 +56,7 @@ function categoryExists(categoryID) {
  * @param {Object} category - app object
  * @returns {Promise<void>}
  */
-async function makeAppTile(app) {
+function makeAppTile(app) {
     const $applist = document.getElementById('app-list');
     const $div = document.createElement('div');
     $div.setAttribute('class', 'card mx-3 my-2 app-tile-div');
@@ -117,7 +94,7 @@ async function makeAppTile(app) {
  * @param {Object} category - category object
  * @returns {Promise<void>}
  */
-async function makeCategoryView(category) {
+function makeCategoryView(category) {
     const $categorylist = document.getElementById('category-list');
     const $div = document.createElement('div');
     const $button = document.createElement('button');
@@ -139,7 +116,7 @@ async function makeCategoryView(category) {
  * @param {String} keyword - keyword to be filtered
  * @returns {Promise<void>}
  */
-async function filter(categoryID, keyword) {
+function filter(categoryID, keyword) {
     document.getElementById('app-list').innerHTML = '';
     categoryIDFilter = categoryID;
     keywordFilter = keyword;
