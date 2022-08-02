@@ -34,7 +34,7 @@ async function handleNewApp(app) {
 async function makeAppTile(app) {
     const $applist = document.getElementById('app-list');
     const $div = document.createElement('div');
-    $div.setAttribute('class', 'card mx-3 my-2 app-tile-div');
+    $div.setAttribute('class', 'card app-tile-div');
 
     const $link = document.createElement('a');
     $link.setAttribute('href', app.uri);
