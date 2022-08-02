@@ -26,7 +26,8 @@ window.onload = async () => {
 
     await queryApps([
         'https://solid-plato.netlify.app/id',
-        'https://solid-md-viewer.netlify.app/id'
+        'https://solid-md-viewer.netlify.app/id',
+        'https://solid-issue-tracker.netlify.app/id'
     ], handleNewApp);
     const $searchbar = document.getElementById('search');
     $searchbar.addEventListener('change', () => {
