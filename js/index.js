@@ -45,8 +45,8 @@ async function handleNewApp(app) {
         if (!categoryIDs.includes(categoryID)) {
             categoryIDs.push(categoryID);
             await queryCategory(categoryID, handleNewCategory);
-        } else {
-            // TODO: also update the category view if it has been queried and handled before
+        } else if (document.getElementById(categoryID) > 0) {
+            updateCategoryView(apps, categoryID);
         }
     }
 }
