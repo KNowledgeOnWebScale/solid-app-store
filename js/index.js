@@ -17,18 +17,18 @@ let categoryIDFilter = '';
 let keywordFilter = '';
 
 window.onload = async () => {
+    document.getElementById('no-results-title').setAttribute('style', 'display: none;');
     await makeCategoryView({
         name: 'All',
         id: 'all',
         description: 'All apps'
     });
     categoryIDFilter = 'all';
-
     await queryApps([
         'https://solid-plato.netlify.app/id',
         'https://solid-md-viewer.netlify.app/id',
         'https://solid-issue-tracker.netlify.app/id'
-    ], handleNewApp);
+    ], handleNewApp, handleAppQueryFinished);
     const $searchbar = document.getElementById('search');
     $searchbar.addEventListener('change', () => {
         filter(categoryIDFilter, $searchbar.value.toLowerCase())
@@ -48,6 +48,16 @@ async function handleNewApp(app) {
             categories.push(categoryID);
             await queryCategory(categoryID, makeCategoryView);
         }
+    }
+}
+
+/**
+ * Handle various document elements when app query has ended
+ */
+function handleAppQueryFinished() {
+    // TODO: create loading icon and it here
+    if (apps.length === 0) {
+        document.getElementById('no-results-title').setAttribute('style', '');
     }
 }
 
@@ -124,5 +134,10 @@ function filter(categoryID, keyword) {
         app => (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) &&
             (categoryID === "all" || app.categories.includes(categoryID))
     );
-    filteredApps.forEach(makeAppTile);
+    if (filteredApps.length === 0) {
+        document.getElementById('no-results-title').setAttribute('style', '');
+    } else {
+        document.getElementById('no-results-title').setAttribute('style', 'display: none;');
+        filteredApps.forEach(makeAppTile);
+    }
 }
