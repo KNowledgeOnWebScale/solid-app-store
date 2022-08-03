@@ -3,10 +3,10 @@ import {QueryEngine} from "@comunica/query-sparql";
 /**
  * Query the necessary data from the Solid app(s)
  * @param {Array} ids - Array of the app('s) ClientID(s)
- * @param {Function} callback - Function to handle the retrieved data from an app
+ * @param {Function} handleNewApp - Function to handle the retrieved data from an app
  * @returns {Promise<void>}
  */
-export async function queryApps(ids, callback) {
+export async function queryApps(ids, handleNewApp, handleAppQueryFinished) {
     const QueryEngine = require('@comunica/query-sparql').QueryEngine;
     const myEngine = new QueryEngine();
     const result = await myEngine.query(`
@@ -42,7 +42,11 @@ export async function queryApps(ids, callback) {
             app.categories = binding.get('categories').value.split(' ');
         }
 
-        callback(app)
+        handleNewApp(app)
+    });
+
+    bindingsStream.on('end', () => {
+       handleAppQueryFinished();
     });
 
     // TODO: make sure this ACTUALLY handles the error and the query doesn't die midway, as this causes no app tiles to be made
