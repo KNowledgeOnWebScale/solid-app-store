@@ -55,7 +55,7 @@ async function handleNewApp(app) {
  * Handle various document elements when app query has ended
  */
 function handleAppQueryFinished() {
-    // TODO: create loading icon and it here
+    // TODO: create loading icon and hide it here
     if (apps.length === 0) {
         document.getElementById('no-results-title').setAttribute('style', '');
     }
