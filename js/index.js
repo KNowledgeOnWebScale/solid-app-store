@@ -8,7 +8,10 @@ import {queryApps, queryCategory} from './apps';
 let apps = [];
 
 // Store the queried category IDs so duplicates can be avoided
-let categories = [];
+let categoryIDs = [];
+
+// Store names of categories by id for updating app amounts per category
+let categoryNames = new Map();
 
 // Store the id of the category that is currently being filtered on
 let categoryIDFilter = '';
@@ -18,22 +21,16 @@ let keywordFilter = '';
 
 window.onload = async () => {
     document.getElementById('no-results-title').classList.add('hidden');
-    await makeCategoryView({
-        name: 'All',
-        id: 'all',
-        description: 'All apps'
-    });
-    categoryIDFilter = 'all';
-    document.getElementById('all').classList.add('category-selected');
     await queryApps([
         'https://solid-plato.netlify.app/id',
         'https://solid-md-viewer.netlify.app/id',
         'https://solid-issue-tracker.netlify.app/id'
     ], handleNewApp, handleAppQueryFinished);
+
     const $searchbar = document.getElementById('search');
     $searchbar.addEventListener('change', () => {
         filter(categoryIDFilter, $searchbar.value.toLowerCase())
-    })
+    });
 }
 
 /**
@@ -43,13 +40,24 @@ window.onload = async () => {
  */
 async function handleNewApp(app) {
     apps.push(app);
-    await makeAppTile(app);
+    makeAppTile(app);
     for (const categoryID of app.categories) {
-        if (!categories.includes(categoryID)) {
-            categories.push(categoryID);
-            await queryCategory(categoryID, makeCategoryView);
+        if (!categoryIDs.includes(categoryID)) {
+            categoryIDs.push(categoryID);
+            await queryCategory(categoryID, handleNewCategory);
+        } else {
+            // TODO: also update the category view if it has been queried and handled before
         }
     }
+}
+
+/**
+ * (Callback) function to handle newly queried category (or hardcoded 'All' category)
+ * @param {Object} category - category object that needs to be handled
+ */
+function handleNewCategory(category) {
+    makeCategoryView(category);
+    updateCategoryView(apps, category.id);
 }
 
 /**
@@ -60,12 +68,38 @@ function handleAppQueryFinished() {
     if (apps.length === 0) {
         document.getElementById('no-results-title').classList.remove('hidden');
     }
+    categoryIDs.push('all');
+    handleNewCategory({
+        name: 'All',
+        id: 'all',
+        description: 'All apps'
+    });
+    categoryIDFilter = 'all';
+    document.getElementById('all').classList.add('category-selected');
+}
+
+/**
+ * Update amount of apps displayed in category view
+ * @param {Array} apps - Array of apps that need to be checken for category
+ * @param {String} categoryID - ID of category that needs view updated
+ */
+function updateCategoryView(apps, categoryID) {
+        let appCount = 0;
+        if (categoryID === 'all') {
+            appCount = apps.length;
+        } else {
+            for (const app of apps) {
+                if (app.categories.includes(categoryID)) {
+                    appCount++;
+                }
+            }
+        }
+        document.getElementById(categoryID).innerText = `${categoryNames.get(categoryID)} (${appCount})`;
 }
 
 /**
  * Create the HTML elements for an app tile
  * @param {Object} category - app object
- * @returns {Promise<void>}
  */
 function makeAppTile(app) {
     const $applist = document.getElementById('app-list');
@@ -103,9 +137,9 @@ function makeAppTile(app) {
 /**
  * Create the HTML elements for a category list item
  * @param {Object} category - category object
- * @returns {Promise<void>}
  */
 function makeCategoryView(category) {
+    categoryNames.set(category.id, category.name);
     const $categorylist = document.getElementById('category-list');
     const $div = document.createElement('div');
     const $button = document.createElement('button');
@@ -126,17 +160,21 @@ function makeCategoryView(category) {
  * Filter apps/app tiles by category and/or keyword
  * @param {String} categoryID - ID of category to be filtered
  * @param {String} keyword - keyword to be filtered
- * @returns {Promise<void>}
  */
 function filter(categoryID, keyword) {
     document.getElementById('app-list').innerHTML = '';
     document.getElementById(categoryIDFilter).classList.remove('category-selected');
     document.getElementById(categoryID).classList.add('category-selected');
-    categoryIDFilter = categoryID;
-    keywordFilter = keyword;
-    const filteredApps = apps.filter(
-        app => (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword)) &&
-            (categoryID === "all" || app.categories.includes(categoryID))
+    let filteredApps = apps.filter(
+        app => (app.name.toLowerCase().includes(keyword) || app.description.toLowerCase().includes(keyword))
+    );
+    if (keyword !== keywordFilter) {
+        for (const categoryID of categoryIDs) {
+            updateCategoryView(filteredApps, categoryID);
+        }
+    }
+    filteredApps = filteredApps.filter(
+        app => (categoryID === "all" || app.categories.includes(categoryID))
     );
     if (filteredApps.length === 0) {
         document.getElementById('no-results-title').classList.remove('hidden');
@@ -144,4 +182,6 @@ function filter(categoryID, keyword) {
         document.getElementById('no-results-title').classList.add('hidden');
         filteredApps.forEach(makeAppTile);
     }
+    categoryIDFilter = categoryID;
+    keywordFilter = keyword;
 }
