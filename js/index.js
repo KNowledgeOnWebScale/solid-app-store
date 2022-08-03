@@ -24,7 +24,7 @@ window.onload = async () => {
         description: 'All apps'
     });
     categoryIDFilter = 'all';
-    document.getElementById('all').setAttribute('class', 'category-selected');
+    document.getElementById('all').classList.add('category-selected');
     await queryApps([
         'https://solid-plato.netlify.app/id',
         'https://solid-md-viewer.netlify.app/id',
