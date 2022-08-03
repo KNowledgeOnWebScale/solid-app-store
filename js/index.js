@@ -130,8 +130,8 @@ function makeCategoryView(category) {
  */
 function filter(categoryID, keyword) {
     document.getElementById('app-list').innerHTML = '';
-    document.getElementById(categoryIDFilter).setAttribute('class', '');
-    document.getElementById(categoryID).setAttribute('class', 'category-selected');
+    document.getElementById(categoryIDFilter).classList.remove('category-selected');
+    document.getElementById(categoryID).classList.add('category-selected');
     categoryIDFilter = categoryID;
     keywordFilter = keyword;
     const filteredApps = apps.filter(
