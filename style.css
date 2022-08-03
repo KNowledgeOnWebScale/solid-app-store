@@ -17,6 +17,9 @@
     cursor: pointer;
 }
 
+.category-selected {
+    font-weight: bold;
+}
 .hidden {
     display: none;
 }
