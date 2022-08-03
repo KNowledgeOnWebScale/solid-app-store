@@ -16,3 +16,7 @@
     background: none;
     cursor: pointer;
 }
+
+.category-selected {
+    font-weight: bold;
+}

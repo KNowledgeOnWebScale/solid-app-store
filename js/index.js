@@ -23,7 +23,7 @@ window.onload = async () => {
         description: 'All apps'
     });
     categoryIDFilter = 'all';
-
+    document.getElementById('all').setAttribute('class', 'category-selected');
     await queryApps([
         'https://solid-plato.netlify.app/id',
         'https://solid-md-viewer.netlify.app/id',
@@ -105,6 +105,7 @@ function makeCategoryView(category) {
     $button.setAttribute('title', category.description);
     const $line = document.createElement('p');
     $line.innerText = category.name;
+    $line.setAttribute('id', category.id);
     $button.appendChild($line);
     $div.appendChild($button);
     $categorylist.appendChild($div);
@@ -118,6 +119,8 @@ function makeCategoryView(category) {
  */
 function filter(categoryID, keyword) {
     document.getElementById('app-list').innerHTML = '';
+    document.getElementById(categoryIDFilter).setAttribute('class', '');
+    document.getElementById(categoryID).setAttribute('class', 'category-selected');
     categoryIDFilter = categoryID;
     keywordFilter = keyword;
     const filteredApps = apps.filter(
