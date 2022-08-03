@@ -55,7 +55,7 @@ async function handleNewApp(app) {
  * Handle various document elements when app query has ended
  */
 function handleAppQueryFinished() {
-    document.getElementById('loader').setAttribute('class', 'loader hidden');
+    document.getElementById('loader').classList.add('hidden');
     if (apps.length === 0) {
         document.getElementById('no-results-title').setAttribute('class', '');
     }
