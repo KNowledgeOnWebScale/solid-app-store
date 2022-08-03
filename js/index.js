@@ -17,7 +17,7 @@ let categoryIDFilter = '';
 let keywordFilter = '';
 
 window.onload = async () => {
-    document.getElementById('no-results-title').setAttribute('class', 'hidden');
+    document.getElementById('no-results-title').classList.add('hidden');
     await makeCategoryView({
         name: 'All',
         id: 'all',
@@ -57,7 +57,7 @@ async function handleNewApp(app) {
 function handleAppQueryFinished() {
     // TODO: create loading icon and hide it here
     if (apps.length === 0) {
-        document.getElementById('no-results-title').setAttribute('class', '');
+        document.getElementById('no-results-title').classList.remove('hidden');
     }
 }
 
@@ -135,9 +135,9 @@ function filter(categoryID, keyword) {
             (categoryID === "all" || app.categories.includes(categoryID))
     );
     if (filteredApps.length === 0) {
-        document.getElementById('no-results-title').setAttribute('class', '');
+        document.getElementById('no-results-title').classList.remove('hidden');
     } else {
-        document.getElementById('no-results-title').setAttribute('class', 'hidden');
+        document.getElementById('no-results-title').classList.add('hidden');
         filteredApps.forEach(makeAppTile);
     }
 }
