@@ -19,6 +19,9 @@ let categoryIDFilter = '';
 // Store the keyword that is currently being filtered on
 let keywordFilter = '';
 
+// Store whether a view for a category has been created
+let categoryViewCreated = new Map()
+
 window.onload = async () => {
     document.getElementById('no-results-title').classList.add('hidden');
     await queryApps([
@@ -44,8 +47,9 @@ async function handleNewApp(app) {
     for (const categoryID of app.categories) {
         if (!categoryIDs.includes(categoryID)) {
             categoryIDs.push(categoryID);
+            categoryViewCreated.set(categoryID, false);
             await queryCategory(categoryID, handleNewCategory);
-        } else if (document.getElementById(categoryID) > 0) {
+        } else if (categoryViewCreated.get(categoryID)) {
             updateCategoryView(apps, categoryID);
         }
     }
@@ -57,6 +61,7 @@ async function handleNewApp(app) {
  */
 function handleNewCategory(category) {
     makeCategoryView(category);
+    categoryViewCreated.set(category.id, true);
     updateCategoryView(apps, category.id);
 }
 
@@ -84,17 +89,17 @@ function handleAppQueryFinished() {
  * @param {String} categoryID - ID of category that needs view updated
  */
 function updateCategoryView(apps, categoryID) {
-        let appCount = 0;
-        if (categoryID === 'all') {
-            appCount = apps.length;
-        } else {
-            for (const app of apps) {
-                if (app.categories.includes(categoryID)) {
-                    appCount++;
-                }
+    let appCount = 0;
+    if (categoryID === 'all') {
+        appCount = apps.length;
+    } else {
+        for (const app of apps) {
+            if (app.categories.includes(categoryID)) {
+                appCount++;
             }
         }
-        document.getElementById(categoryID).innerText = `${categoryNames.get(categoryID)} (${appCount})`;
+    }
+    document.getElementById(categoryID).innerText = `${categoryNames.get(categoryID)} (${appCount})`;
 }
 
 /**
