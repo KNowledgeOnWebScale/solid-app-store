@@ -41,9 +41,9 @@ document, on its Client ID that looks like this:
 
 Categories are required to have an id from `https://data.knows.idlab.ugent.be/person/office/application-categories` \
 \
-Logo, description and categories are optional and will be left empty or replaced b²y a placeholder if absent.\
+Logo, description and categories are optional and will be left empty or replaced by a placeholder if absent.\
 \
-More information on Solid-OIDC Client ID's can be found [here](https://solid.github.io/solid-oidc/#clientids-document)
+More information on Solid-OIDC Client IDs can be found [here](https://solid.github.io/solid-oidc/#clientids-document)
 
 ## License
 
