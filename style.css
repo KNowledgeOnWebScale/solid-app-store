@@ -20,6 +20,17 @@
 .category-selected {
     font-weight: bold;
 }
+
+.github-href {
+    text-decoration: none;
+    color: inherit;
+}
+
+.github-href:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
 .hidden {
     display: none;
 }
