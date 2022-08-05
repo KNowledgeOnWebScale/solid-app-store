@@ -22,27 +22,28 @@ export async function queryApps(ids, handleNewApp, handleAppQueryFinished) {
     });
     const bindingsStream = await result.execute()
     bindingsStream.on('data', (binding) => {
-        const app = {};
-        app.name = binding.get('name').value;
-        app.uri = binding.get('uri').value;
+        if (binding.has('name') && binding.has('uri')) {
+            const app = {};
+            app.name = binding.get('name').value;
+            app.uri = binding.get('uri').value;
 
-        // As both the app's logo and description are optional, check if they are present or use a placeholder
-        if (binding.has('logo')) {
-            app.logo = binding.get('logo').value;
-        } else {
-            app.logo = 'https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg';
-        }
-        if (binding.has('description')) {
-            app.description = binding.get('description').value;
-        } else {
-            // TODO: no description when abscent
-            app.description = 'A Solid App'
-        }
-        if (binding.has('categories')) {
-            app.categories = binding.get('categories').value.split(' ');
-        }
+            if (binding.has('logo')) {
+                app.logo = binding.get('logo').value;
+            } else {
+                app.logo = 'https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg';
+            }
+            if (binding.has('description')) {
+                app.description = binding.get('description').value;
+            } else {
+                // TODO: no description when abscent
+                app.description = 'A Solid App'
+            }
+            if (binding.has('categories')) {
+                app.categories = binding.get('categories').value.split(' ');
+            }
 
-        handleNewApp(app)
+            handleNewApp(app)
+        }
     });
 
     bindingsStream.on('end', () => {
