@@ -20,8 +20,9 @@ $ npm start
 ```
 
 ## Solid-OIDC Client ID Document
-For an app to be added on the app store, it should offer a resource, serialized as an `application/ld+json`
-document, on its Client ID that looks like this:
+For an app to be added on the app store, it should offer a Client ID, serialized as an `application/ld+json`
+document.
+The Client ID looks like this:
 
 ```json
 {
@@ -39,10 +40,8 @@ document, on its Client ID that looks like this:
 }
 ```
 
-Categories are required to have an id from `https://data.knows.idlab.ugent.be/person/office/application-categories` \
-\
-Logo, description and categories are optional and will be left empty or replaced by a placeholder if absent.\
-\
+Categories are required to have an id from `https://data.knows.idlab.ugent.be/person/office/application-categories`.
+Logo, description, and categories are optional.
 More information on Solid-OIDC Client IDs can be found [here](https://solid.github.io/solid-oidc/#clientids-document)
 
 ## License
