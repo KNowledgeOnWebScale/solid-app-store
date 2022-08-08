@@ -1,0 +1,36 @@
+@prefix dash:   <http://datashapes.org/dash#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix dc:     <http://purl.org/dc/terms/>.
+@prefix oidc:   <http://www.w3.org/ns/solid/oidc#> .
+
+##########
+# Shapes #
+##########
+<#ClientIDShape>
+    a              sh:NodeShape ;
+    sh:property    [ sh:path     oidc:client_name ;
+                     sh:datatype xsd:string ;
+                     sh:name     "The name of the software.";
+                     sh:minCount 1 ; ] ;
+    sh:property    [ sh:path     oidc:client_uri ;
+                     sh:nodeKind sh:IRI ;
+                     sh:name     "The URI of the software.";
+                     sh:minCount 1 ; ] ;
+    sh:property    [ sh:path     schema:description ;
+                     sh:datatype xsd:string ;
+                     sh:name     "A short description of the software.";
+                     sh:minCount 0 ; ] ;
+    sh:property    [ sh:path     oidc:logo_uri ;
+                     sh:nodeKind sh:IRI ;
+                     sh:name     "A link to the logo of the software.";
+                     sh:minCount 0 ; ] ;
+    sh:property    [ sh:path     schema:category ;
+                     sh:nodeKind sh:IRI ;
+                     sh:name     "The categories of the software.";
+                     sh:minCount 0 ; ] .
+

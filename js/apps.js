@@ -103,6 +103,11 @@ export async function queryCategory(categoryID, callback) {
     });
 }
 
+/**
+ * This function queries for all IDs of trusted apps to show in the store.
+ * @param sources - The sources to query for IDs.
+ * @returns {Promise<unknown>}
+ */
 export function queryIDs(sources) {
     return new Promise(async resolve => {
         const QueryEngine = require('@comunica/query-sparql').QueryEngine;

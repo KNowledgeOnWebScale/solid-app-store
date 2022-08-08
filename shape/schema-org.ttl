@@ -1,0 +1,46 @@
+@prefix dash:   <http://datashapes.org/dash#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix dc:       <http://purl.org/dc/terms/>.
+
+##########
+# Shapes #
+##########
+<#AppShape>
+    a              sh:NodeShape ;
+    sh:targetClass schema:SoftwareApplication ;
+    sh:property    <#NameProperty> ;
+    sh:property    [ sh:path     schema:description ;
+                     sh:datatype xsd:string ;
+                     sh:name "A short description of the software.";
+                     sh:minCount 0 ; ] ;
+    sh:property    [ sh:path     schema:logo ;
+                     sh:nodeKind sh:IRI ;
+                     sh:name "A link to the logo of the software.";
+                     sh:minCount 0 ; ] ;
+    sh:property    [ sh:path     schema:category ;
+                     sh:nodeKind sh:IRI ;
+                     sh:name "The categories of the software.";
+                     sh:minCount 0 ; ] ;
+    sh:property    [ sh:path [ sh:inversePath schema:targetProduct ] ;
+                     sh:node <#SourceCodeShape> ;
+                     sh:minCount 1 ] .
+
+<#SourceCodeShape>
+    a               sh:NodeShape ;
+    sh:property   [ sh:path     schema:codeRepository ;
+                    sh:nodeKind sh:IRI ;
+                    sh:minCount 1 ] .
+
+##############
+# Properties #
+##############
+<#NameProperty>
+    sh:path     schema:name ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 .
+
