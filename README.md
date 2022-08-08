@@ -42,7 +42,7 @@ The Client ID looks like this:
 
 Categories are required to have an id from `https://data.knows.idlab.ugent.be/person/office/application-categories`.
 Logo, description, and categories are optional.
-More information on Solid-OIDC Client IDs can be found [here](https://solid.github.io/solid-oidc/#clientids-document)
+More information on Solid-OIDC Client IDs can be found [here](https://solid.github.io/solid-oidc/#clientids-document).
 
 ## License
 
