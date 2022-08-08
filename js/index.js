@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'font-awesome/css/font-awesome.css';
 
-import {queryApps, queryCategory} from './apps';
+import {queryApps, queryCategory, queryIDs} from './apps';
 
 // Store the queried apps, so they can be filtered and built again later on
 let apps = [];
@@ -24,11 +24,8 @@ let categoryViewCreated = new Map()
 
 window.onload = async () => {
     document.getElementById('no-results-title').classList.add('hidden');
-    await queryApps([
-        'https://solid-plato.netlify.app/id',
-        'https://solid-md-viewer.netlify.app/id',
-        'https://solid-issue-tracker.netlify.app/id'
-    ], handleNewApp, handleAppQueryFinished);
+    const appIDs = await queryIDs(['https://data.knows.idlab.ugent.be/person/office/trusted-solid-applications']);
+    await queryApps(appIDs, ['https://data.knows.idlab.ugent.be/person/office/software'], handleNewApp, handleAppQueryFinished);
 
     const $searchbar = document.getElementById('search');
     $searchbar.addEventListener('change', () => {
