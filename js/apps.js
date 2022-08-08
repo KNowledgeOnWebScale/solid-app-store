@@ -1,11 +1,9 @@
-import {QueryEngine} from "@comunica/query-sparql";
-
 /**
- * Query the necessary data from the Solid app(s)
- * @param {Array} ids - Array of the app('s) ClientID(s)
- * @param additionalSources - Array of additional sources that need to be queries beside the IDs.
- * @param {Function} handleNewApp - Function to handle the retrieved data from an app
- * @param handleAppQueryFinished
+ * Query the necessary data from the Solid app(s).
+ * @param {Array} ids - Array of the app('s) ClientID(s).
+ * @param {Array} additionalSources - Array of additional sources that need to be queries beside the IDs.
+ * @param {Function} handleNewApp - Function to handle the retrieved data from an app.
+ * @param {Function} handleAppQueryFinished - Function to call once the complete query is finished.
  * @returns {Promise<void>}
  */
 export async function queryApps(ids, additionalSources = [], handleNewApp, handleAppQueryFinished) {
@@ -73,7 +71,7 @@ export async function queryApps(ids, additionalSources = [], handleNewApp, handl
        handleAppQueryFinished();
     });
 
-    // TODO: make sure this ACTUALLY handles the error and the query doesn't die midway, as this causes no app tiles to be made
+    // TODO: make sure this ACTUALLY handles the error and the query doesn't die midway, as this causes no app tiles to be made.
     bindingsStream.on('error', (error) => {
         console.error(error);
     });
