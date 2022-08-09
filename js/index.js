@@ -103,11 +103,11 @@ function updateCategoryView(apps, categoryID) {
 }
 
 /**
- * Create the HTML elements for an app tile
- * @param {Object} category - app object
+ * Create the HTML elements for an app tile and add them to HTML page.
+ * @param {Object} app - An object describing the app.
  */
 function makeAppTile(app) {
-    const $applist = document.getElementById('app-list');
+    const $appList = document.getElementById('app-list');
     const $div = document.createElement('div');
     $div.setAttribute('class', 'card app-tile-div');
 
@@ -136,7 +136,7 @@ function makeAppTile(app) {
     $body.appendChild($text);
 
     $div.appendChild($body);
-    $applist.appendChild($div);
+    $appList.appendChild($div);
 }
 
 /**
