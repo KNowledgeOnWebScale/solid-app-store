@@ -25,7 +25,11 @@ let categoryViewCreated = new Map()
 window.onload = async () => {
     document.getElementById('no-results-title').classList.add('hidden');
     const appIDs = await queryIDs(['https://data.knows.idlab.ugent.be/person/office/trusted-solid-applications']);
-    await queryApps(appIDs, ['https://data.knows.idlab.ugent.be/person/office/software'], handleNewApp, handleAppQueryFinished);
+    await queryApps(appIDs,
+        [
+            'https://data.knows.idlab.ugent.be/person/office/software',
+            'https://data.knows.idlab.ugent.be/person/office/external-software']
+        , handleNewApp, handleAppQueryFinished);
 
     const $searchbar = document.getElementById('search');
     $searchbar.addEventListener('change', () => {
