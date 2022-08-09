@@ -23,7 +23,6 @@ let keywordFilter = '';
 let categoryViewCreated = new Map()
 
 window.onload = async () => {
-    document.getElementById('no-results-title').classList.add('hidden');
     const appIDs = await queryIDs(['https://data.knows.idlab.ugent.be/person/office/trusted-solid-applications']);
     await queryApps(appIDs,
         [
