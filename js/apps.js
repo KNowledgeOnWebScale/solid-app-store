@@ -9,6 +9,18 @@
 export async function queryApps(ids, additionalSources = [], handleNewApp, handleAppQueryFinished) {
     const QueryEngine = require('@comunica/query-sparql').QueryEngine;
     const myEngine = new QueryEngine();
+
+    console.log(ids.concat(additionalSources));
+    // Remove sources that are the same when removing the fragment.
+    let sources = ids.concat(additionalSources).map(source => {
+        const url = new URL(source);
+        const fragment = url.hash;
+        return source.replace(fragment, '');
+    });
+    sources = [...new Set(sources)];
+
+    console.log(sources);
+
     const result = await myEngine.query(`
       PREFIX oidc: <http://www.w3.org/ns/solid/oidc#>
       PREFIX schema: <http://schema.org/>
@@ -34,12 +46,13 @@ export async function queryApps(ids, additionalSources = [], handleNewApp, handl
         OPTIONAL { ?id schema:category ?category } .
       } 
       GROUP BY ?id ?name ?uri ?logo ?description`, {
-        sources: ids.concat(additionalSources),
+        sources,
         lenient: true
     });
     const bindingsStream = await result.execute()
     bindingsStream.on('data', (binding) => {
         // Some data sources might contain information about apps that are not explicitly asked for.
+        console.log(binding);
         if (ids.includes(binding.get('id').value)) {
             const app = {
                 categories: []
@@ -68,6 +81,7 @@ export async function queryApps(ids, additionalSources = [], handleNewApp, handl
     });
 
     bindingsStream.on('end', () => {
+        console.log('done');
        handleAppQueryFinished();
     });
 
