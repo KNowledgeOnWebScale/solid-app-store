@@ -85,7 +85,7 @@ function handleAppQueryFinished() {
 
 /**
  * Update amount of apps displayed in category view
- * @param {Array} apps - Array of apps that need to be checken for category
+ * @param {Array} apps - Array of apps that need to be checked for category
  * @param {String} categoryID - ID of category that needs view updated
  */
 function updateCategoryView(apps, categoryID) {
