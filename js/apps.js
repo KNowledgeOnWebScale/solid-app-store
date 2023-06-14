@@ -60,7 +60,7 @@ export async function queryApps(ids, additionalSources = [], handleNewApp, handl
             if (binding.has('logo')) {
                 app.logo = binding.get('logo').value;
             } else {
-                app.logo = 'https://genr.eu/wp/wp-content/uploads/2018/10/logo.svg';
+                app.logo = 'https://github.com/KNowledgeOnWebScale/solid-app-store/blob/main/solid-logo.png';
             }
             if (binding.has('description')) {
                 app.description = binding.get('description').value;
