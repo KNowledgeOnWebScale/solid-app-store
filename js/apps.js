@@ -60,12 +60,12 @@ export async function queryApps(ids, additionalSources = [], handleNewApp, handl
             if (binding.has('logo')) {
                 app.logo = binding.get('logo').value;
             } else {
-                app.logo = 'https://github.com/KNowledgeOnWebScale/solid-app-store/blob/main/solid-logo.png';
+                app.logo = 'https://github.com/KNowledgeOnWebScale/solid-app-store/raw/main/solid-logo.png';
             }
             if (binding.has('description')) {
                 app.description = binding.get('description').value;
             } else {
-                // TODO: no description when abscent
+                // TODO: no description when absent
                 app.description = 'A Solid App'
             }
             if (binding.has('categories')) {
